@@ -1,0 +1,470 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    user-select: none;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #000 0%, #111 100%);
+}
+
+/* Fondo de partículas interactivas */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+/* Fondo con texto grande */
+.background-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.05;
+}
+
+.background-text::before {
+    content: "PREMIUM SERVICES";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 15vw;
+    font-weight: 900;
+    letter-spacing: 1vw;
+    line-height: 20vh;
+    white-space: nowrap;
+    opacity: 0.03;
+    color: #7289da;
+    transform: rotate(-30deg);
+    user-select: none;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Orbes de vidrio decorativos */
+.glass-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+    z-index: 0;
+}
+
+.glass-orb-1 {
+    width: 300px;
+    height: 300px;
+    top: 20%;
+    left: 15%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.05), transparent 70%);
+    animation: float-orb 20s ease-in-out infinite;
+}
+
+.glass-orb-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 15%;
+    right: 10%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.05), transparent 70%);
+    animation: float-orb 15s ease-in-out infinite reverse;
+}
+
+.glass-orb-3 {
+    width: 150px;
+    height: 150px;
+    top: 60%;
+    left: 10%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.03), transparent 70%);
+    animation: float-orb 25s ease-in-out infinite 5s;
+}
+
+@keyframes float-orb {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(30px, -30px);
+    }
+    50% {
+        transform: translate(0, -50px);
+    }
+    75% {
+        transform: translate(-30px, -20px);
+    }
+}
+
+.content {
+    text-align: center;
+    z-index: 1;
+    max-width: 800px;
+    padding: 3rem;
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), 
+                0 0 20px rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto de brillo en los bordes */
+.content::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 70%);
+    z-index: -1;
+}
+
+/* Efecto de brillo adicional */
+.glass-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 100%
+    );
+    z-index: -1;
+    transform: translateX(-100%);
+    animation: shine 8s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%) rotate(0deg);
+    }
+    20%, 100% {
+        transform: translateX(100%) rotate(0deg);
+    }
+}
+
+.main-title {
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #fff, #aaa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    letter-spacing: 2px;
+    position: relative;
+    font-family: 'Montserrat', monospace;
+}
+
+/* Efecto de resplandor para el título */
+.main-title::after {
+    content: 'IARUIK';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: transparent;
+    filter: blur(10px);
+    opacity: 0.3;
+    background: linear-gradient(to right, #fff, #aaa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    z-index: -1;
+}
+
+.tagline {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+.subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.05em;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    position: relative;
+    display: inline-block;
+}
+
+.premium-highlight {
+    color: #7289da;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 0 15px rgba(114, 137, 218, 0.6);
+}
+
+.premium-highlight::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #7289da, transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        opacity: 0.3;
+        transform: scaleX(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+    100% {
+        opacity: 0.3;
+        transform: scaleX(0.8);
+    }
+}
+
+.description {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    color: #aaa;
+}
+
+.highlight {
+    color: #7289da;
+    font-weight: 700;
+    text-shadow: 0 0 5px rgba(114, 137, 218, 0.5);
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.category {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.category::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(114, 137, 218, 0.2) 0%,
+        rgba(114, 137, 218, 0) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.category:hover::before {
+    opacity: 1;
+}
+
+.category:hover {
+    transform: translateY(-3px);
+    border-color: rgba(114, 137, 218, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    font-size: 1.2rem;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
+}
+
+/* Estilos para la animación de texto desencriptado */
+.decrypt-animation {
+    display: inline-block;
+    position: relative;
+}
+
+.decrypt-char {
+    display: inline-block;
+    transition: all 0.2s ease;
+}
+
+/* Logo de Discord */
+.discord-container {
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+}
+
+.discord-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(114, 137, 218, 0.3);
+    border-radius: 30px;
+    padding: 10px 25px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 20px rgba(114, 137, 218, 0.1);
+}
+
+.discord-svg {
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(0 0 3px rgba(114, 137, 218, 0.5));
+    transition: all 0.3s ease;
+}
+
+.discord-logo span {
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.discord-logo:hover {
+    background-color: rgba(114, 137, 218, 0.1);
+    border-color: rgba(114, 137, 218, 0.6);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 5px 25px rgba(114, 137, 218, 0.2);
+}
+
+.discord-logo:hover .discord-svg {
+    filter: drop-shadow(0 0 5px rgba(114, 137, 218, 0.8));
+    transform: scale(1.1);
+}
+
+.discord-logo:hover span {
+    color: #7289da;
+}
+
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 3.5rem;
+    }
+    
+    .subtitle {
+        font-size: 2rem;
+    }
+    
+    .description {
+        font-size: 1rem;
+    }
+    
+    .categories {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .content {
+        padding: 2rem;
+        margin: 1rem;
+    }
+    
+    .glass-orb-1 {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .glass-orb-2 {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .glass-orb-3 {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* Insignia de confianza */
+.trust-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 25px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(114, 137, 218, 0.3);
+    border-radius: 30px;
+    padding: 8px 20px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    transition: all 0.3s ease;
+}
+
+.trust-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(114, 137, 218, 0.2);
+    border-color: rgba(114, 137, 218, 0.5);
+}
+
+.trust-icon {
+    width: 20px;
+    height: 20px;
+    background: #7289da;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.trust-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+} 
