@@ -23,34 +23,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             },
             "opacity": {
-                "value": 0.3,
-                "random": true,
+                "value": 0.5,
+                "random": false,
                 "anim": {
-                    "enable": true,
-                    "speed": 1,
-                    "opacity_min": 0.1,
-                    "sync": false
+                    "enable": false
                 }
             },
             "size": {
                 "value": 3,
                 "random": true,
                 "anim": {
-                    "enable": true,
-                    "speed": 2,
-                    "size_min": 0.1,
-                    "sync": false
+                    "enable": false
                 }
             },
             "line_linked": {
                 "enable": true,
                 "distance": 150,
                 "color": "#ffffff",
-                "opacity": 0.2,
+                "opacity": 0.4,
                 "width": 1
             },
             "move": {
                 "enable": true,
+                "speed": 6,
                 "speed": 1,
                 "direction": "none",
                 "random": true,
@@ -266,4 +261,140 @@ document.addEventListener('DOMContentLoaded', () => {
         contentContainer.style.backdropFilter = `blur(${blurAmount}px)`;
         contentContainer.style.webkitBackdropFilter = `blur(${blurAmount}px)`;
     });
+    
+    // Configuración del juego de memoria
+    const gameContainer = document.querySelector('.game-container');
+    const memoryGrid = document.querySelector('.memory-grid');
+    const scoreElement = document.querySelector('.game-score');
+    const startScreen = document.querySelector('.start-screen');
+
+    let gameStarted = false;
+    let attempts = 0;
+    let flippedCards = [];
+    let matchedPairs = 0;
+
+    // Arrays de emojis por categorías
+    const emojiCategories = {
+        animals: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮'],
+        food: ['🍎', '🍕', '🍔', '🌮', '🍦', '🍩', '🍪', '🍫', '🍿', '🥤', '🧃', '🍺'],
+        sports: ['⚽', '🏀', '🏈', '⚾', '🎾', '🏐', '🏉', '🎱', '🏓', '🏸', '🏊', '🚴'],
+        nature: ['🌸', '🌹', '🌺', '🌻', '🌼', '🌷', '🌱', '🌲', '🌳', '🌴', '🌵', '🍄'],
+        objects: ['📱', '💻', '⌚', '📷', '🎮', '🎧', '👑', '💍', '💎', '🔑', '🎁', '💡'],
+        expressions: ['😀', '😎', '🤓', '😍', '🥳', '😴', '🤔', '😅', '😂', '🥺', '😱', '🤯']
+    };
+
+    // Función para obtener emojis aleatorios de una categoría aleatoria
+    function getRandomEmojis(count) {
+        // Seleccionar una categoría aleatoria
+        const categories = Object.keys(emojiCategories);
+        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+        const emojis = emojiCategories[randomCategory];
+        
+        // Mezclar los emojis y tomar los primeros 'count'
+        return shuffleArray([...emojis])
+            .slice(0, count)
+            .reduce((pairs, emoji) => [...pairs, emoji, emoji], []); // Duplicar cada emoji
+    }
+
+    // Función para mezclar el array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Crear las cartas del juego
+    function createCards() {
+        const gameEmojis = shuffleArray(getRandomEmojis(6)); // 6 pares = 12 cartas
+        memoryGrid.innerHTML = '';
+        
+        gameEmojis.forEach((emoji, index) => {
+            const card = document.createElement('div');
+            card.className = 'memory-card';
+            card.dataset.cardIndex = index;
+            
+            const front = document.createElement('div');
+            front.className = 'card-front';
+            front.innerHTML = '❓';
+            
+            const back = document.createElement('div');
+            back.className = 'card-back';
+            back.innerHTML = emoji;
+            
+            card.appendChild(front);
+            card.appendChild(back);
+            
+            card.addEventListener('click', () => flipCard(card));
+            memoryGrid.appendChild(card);
+        });
+    }
+
+    // Función para voltear una carta
+    function flipCard(card) {
+        if (!gameStarted || flippedCards.length >= 2 || card.classList.contains('flipped') || card.classList.contains('matched')) {
+            return;
+        }
+        
+        card.classList.add('flipped');
+        flippedCards.push(card);
+        
+        if (flippedCards.length === 2) {
+            attempts++;
+            scoreElement.textContent = `Tries: ${attempts}`;
+            checkMatch();
+        }
+    }
+
+    // Comprobar si las cartas volteadas son iguales
+    function checkMatch() {
+        const [card1, card2] = flippedCards;
+        const match = card1.querySelector('.card-back').innerHTML === card2.querySelector('.card-back').innerHTML;
+        
+        if (match) {
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+            matchedPairs++;
+            
+            if (matchedPairs === 6) { // 6 pares en total
+                setTimeout(() => {
+                    showGameOver();
+                }, 500);
+            }
+        } else {
+            setTimeout(() => {
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+            }, 1000);
+        }
+        
+        setTimeout(() => {
+            flippedCards = [];
+        }, 1000);
+    }
+
+    // Mostrar pantalla de fin de juego
+    function showGameOver() {
+        startScreen.classList.remove('hidden');
+        startScreen.querySelector('.start-text').textContent = `Won in ${attempts} tries!\nClick to play again`;
+        gameStarted = false;
+    }
+
+    // Iniciar el juego
+    function startGame() {
+        gameStarted = true;
+        attempts = 0;
+        matchedPairs = 0;
+        flippedCards = [];
+        scoreElement.textContent = 'Tries: 0';
+        startScreen.classList.add('hidden');
+        createCards();
+    }
+
+    // Evento para iniciar el juego
+    startScreen.addEventListener('click', startGame);
+
+    // Inicializar el juego
+    createCards();
 }); 
