@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Configuración e inicialización de partículas interactivas
     particlesJS('particles-js', {
         "particles": {
             "number": {
@@ -101,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         "retina_detect": true
     });
     
-    // Efecto de desplazamiento para el fondo
     const backgroundText = document.querySelector('.background-text');
     let position = 0;
     
@@ -113,27 +111,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     animateBackground();
     
-    // Implementación de la animación de texto desencriptado para "IARUIK"
     const mainTitle = document.querySelector('.main-title');
     const originalText = mainTitle.textContent;
     let animationInProgress = false;
     
-    // Función para generar caracteres aleatorios
     function getRandomChar() {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
         return chars.charAt(Math.floor(Math.random() * chars.length));
     }
     
-    // Función para iniciar la animación de desencriptado
     function startDecryptEffect() {
         if (animationInProgress) return;
         animationInProgress = true;
         
-        // Limpiar el contenido actual
         mainTitle.innerHTML = '';
         mainTitle.classList.add('decrypt-animation');
         
-        // Crear un span para cada carácter
         const chars = originalText.split('');
         const charElements = [];
         
@@ -147,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
             charElements.push(span);
         });
         
-        // Iniciar la animación de desencriptado
         let iteration = 0;
         const maxIterations = 10;
         
@@ -155,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
             iteration++;
             
             charElements.forEach((span, index) => {
-                // Probabilidad de que el carácter se "desencripte" en esta iteración
                 const shouldReveal = Math.random() < iteration / maxIterations || iteration === maxIterations;
                 
                 if (shouldReveal && span.textContent !== span.dataset.originalChar) {
@@ -163,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     span.style.color = '#fff';
                     span.style.textShadow = '0 0 8px rgba(255, 255, 255, 0.8)';
                     
-                    // Animación de revelación
                     span.animate([
                         { transform: 'scale(1.5)', opacity: 0.7 },
                         { transform: 'scale(1)', opacity: 1 }
@@ -176,11 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            // Detener la animación después de completar las iteraciones
             if (iteration >= maxIterations) {
                 clearInterval(interval);
                 
-                // Restaurar el estilo original después de un tiempo
                 setTimeout(() => {
                     charElements.forEach(span => {
                         span.style.color = '';
@@ -192,23 +180,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }
     
-    // Iniciar la animación al cargar la página
     setTimeout(startDecryptEffect, 500);
     
-    // Configurar la repetición de la animación cada 5 segundos
     setInterval(startDecryptEffect, 5000);
     
-    // Mantener el evento de clic para permitir al usuario iniciar la animación manualmente
     mainTitle.addEventListener('click', startDecryptEffect);
     
-    // Crear el fondo de ondas
     createWavesBackground();
     
     function createWavesBackground() {
         const wavesContainer = document.createElement('div');
         wavesContainer.classList.add('waves-background');
         
-        // Crear múltiples capas de ondas
         for (let i = 0; i < 4; i++) {
             const waveLayer = document.createElement('div');
             waveLayer.classList.add('wave-layer');
@@ -216,18 +199,15 @@ document.addEventListener('DOMContentLoaded', () => {
             wavesContainer.appendChild(waveLayer);
         }
         
-        // Insertar el contenedor de ondas antes del primer hijo del body
         document.body.insertBefore(wavesContainer, document.body.firstChild);
     }
     
-    // Efecto de movimiento del contenedor de vidrio con el movimiento del ratón
     const contentContainer = document.querySelector('.content');
     
     document.addEventListener('mousemove', (e) => {
         const mouseX = e.clientX / window.innerWidth;
         const mouseY = e.clientY / window.innerHeight;
         
-        // Movimiento suave del contenedor
         contentContainer.style.transform = `
             translate(
                 ${(mouseX - 0.5) * 10}px, 
@@ -235,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
             )
         `;
         
-        // Efecto de brillo dinámico en los bordes
         contentContainer.style.boxShadow = `
             0 4px 30px rgba(0, 0, 0, 0.2),
             0 0 20px rgba(255, 255, 255, ${0.05 + mouseY * 0.1}),
@@ -243,26 +222,21 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     });
     
-    // Efecto de desenfoque dinámico para el fondo
     document.addEventListener('mousemove', (e) => {
         const mouseX = e.clientX / window.innerWidth;
         const mouseY = e.clientY / window.innerHeight;
         
-        // Calcular la distancia desde el centro
         const distanceFromCenter = Math.sqrt(
             Math.pow(mouseX - 0.5, 2) + 
             Math.pow(mouseY - 0.5, 2)
         );
         
-        // Ajustar el desenfoque basado en la distancia
         const blurAmount = 5 + distanceFromCenter * 15;
         
-        // Aplicar el desenfoque al contenedor
         contentContainer.style.backdropFilter = `blur(${blurAmount}px)`;
         contentContainer.style.webkitBackdropFilter = `blur(${blurAmount}px)`;
     });
     
-    // Configuración del juego de memoria
     const gameContainer = document.querySelector('.game-container');
     const memoryGrid = document.querySelector('.memory-grid');
     const scoreElement = document.querySelector('.game-score');
@@ -273,7 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let flippedCards = [];
     let matchedPairs = 0;
 
-    // Arrays de emojis por categorías
     const emojiCategories = {
         animals: ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮'],
         food: ['🍎', '🍕', '🍔', '🌮', '🍦', '🍩', '🍪', '🍫', '🍿', '🥤', '🧃', '🍺'],
@@ -283,20 +256,16 @@ document.addEventListener('DOMContentLoaded', () => {
         expressions: ['😀', '😎', '🤓', '😍', '🥳', '😴', '🤔', '😅', '😂', '🥺', '😱', '🤯']
     };
 
-    // Función para obtener emojis aleatorios de una categoría aleatoria
     function getRandomEmojis(count) {
-        // Seleccionar una categoría aleatoria
         const categories = Object.keys(emojiCategories);
         const randomCategory = categories[Math.floor(Math.random() * categories.length)];
         const emojis = emojiCategories[randomCategory];
         
-        // Mezclar los emojis y tomar los primeros 'count'
         return shuffleArray([...emojis])
             .slice(0, count)
-            .reduce((pairs, emoji) => [...pairs, emoji, emoji], []); // Duplicar cada emoji
+            .reduce((pairs, emoji) => [...pairs, emoji, emoji], []); 
     }
 
-    // Función para mezclar el array
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -305,9 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return array;
     }
 
-    // Crear las cartas del juego
     function createCards() {
-        const gameEmojis = shuffleArray(getRandomEmojis(6)); // 6 pares = 12 cartas
+        const gameEmojis = shuffleArray(getRandomEmojis(6)); 
         memoryGrid.innerHTML = '';
         
         gameEmojis.forEach((emoji, index) => {
@@ -331,7 +299,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Función para voltear una carta
     function flipCard(card) {
         if (!gameStarted || flippedCards.length >= 2 || card.classList.contains('flipped') || card.classList.contains('matched')) {
             return;
@@ -347,7 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Comprobar si las cartas volteadas son iguales
     function checkMatch() {
         const [card1, card2] = flippedCards;
         const match = card1.querySelector('.card-back').innerHTML === card2.querySelector('.card-back').innerHTML;
@@ -357,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card2.classList.add('matched');
             matchedPairs++;
             
-            if (matchedPairs === 6) { // 6 pares en total
+            if (matchedPairs === 6) { 
                 setTimeout(() => {
                     showGameOver();
                 }, 500);
@@ -374,14 +340,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
-    // Mostrar pantalla de fin de juego
     function showGameOver() {
         startScreen.classList.remove('hidden');
         startScreen.querySelector('.start-text').textContent = `Won in ${attempts} tries!\nClick to play again`;
         gameStarted = false;
     }
 
-    // Iniciar el juego
     function startGame() {
         gameStarted = true;
         attempts = 0;
@@ -392,9 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
         createCards();
     }
 
-    // Evento para iniciar el juego
     startScreen.addEventListener('click', startGame);
 
-    // Inicializar el juego
     createCards();
 }); 
